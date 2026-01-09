@@ -241,7 +241,7 @@ async def atualizar_usuario(
 @api_router.delete("/admin/users/{user_id}")
 async def excluir_usuario(
     user_id: str,
-    current_user: dict = Depends(lambda token=Depends(oauth2_scheme): get_current_user(token, db))
+    current_user: dict = Depends(get_current_user_dep)
 ):
     """Exclui usuário (apenas admin)"""
     await require_permission("admin", current_user)
