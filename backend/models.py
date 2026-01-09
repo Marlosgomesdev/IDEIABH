@@ -210,20 +210,51 @@ class User(BaseModel):
     role: UserRole = UserRole.ATENDIMENTO
     ativo: bool = True
     permissoes: Dict[str, bool] = {
+        # Dashboard
         "dashboard": True,
+        
+        # Contratos
         "contratos_visualizar": True,
         "contratos_criar": False,
         "contratos_editar": False,
         "contratos_excluir": False,
         "contratos_aprovar": False,
         "contratos_finalizar": False,
+        
+        # Projetos
         "projetos_visualizar": True,
         "projetos_avancar": False,
+        "projetos_mover_etapa": False,
+        
+        # Tarefas
         "tarefas_visualizar": True,
         "tarefas_criar": False,
         "tarefas_editar": False,
         "tarefas_concluir": False,
         "tarefas_mover": False,
+        "tarefas_excluir": False,
+        
+        # Etapas do Workflow - Permissões por etapa
+        "etapa_lancamento": False,
+        "etapa_ativacao": False,
+        "etapa_revisao": False,
+        "etapa_criacao_1_2": False,
+        "etapa_conferencia": False,
+        "etapa_ajuste_layout": False,
+        "etapa_criacao_3_4": False,
+        "etapa_aprovacao_final": False,
+        "etapa_planejamento_producao": False,
+        "etapa_pre_producao": False,
+        "etapa_producao": False,
+        "etapa_qualidade": False,
+        "etapa_entrega": False,
+        "etapa_pos_vendas": False,
+        
+        # Feedback e Interação
+        "dar_feedback": False,
+        "ver_feedback": True,
+        
+        # Admin
         "admin": False
     }
     created_at: datetime = Field(default_factory=datetime.utcnow)
