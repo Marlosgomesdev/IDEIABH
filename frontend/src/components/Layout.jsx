@@ -1,14 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, FileText, FolderKanban, CheckSquare, LogOut } from 'lucide-react';
+import { LayoutDashboard, FileText, FolderKanban, CheckSquare, LogOut, Users } from 'lucide-react';
 import './Layout.css';
 
 const Layout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    // Verificar se usuário é admin
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        setIsAdmin(user.role === 'Administrador' || user.permissoes?.admin);
+      } catch (e) {
+        console.error('Erro ao verificar permissões:', e);
+      }
+    }
+  }, []);
 
   const handleLogout = () => {
-    // TODO: Implementar logout real
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     navigate('/login');
   };
 
@@ -18,6 +33,10 @@ const Layout = ({ children }) => {
     { path: '/projetos', icon: FolderKanban, label: 'Projetos' },
     { path: '/tarefas', icon: CheckSquare, label: 'Tarefas' },
   ];
+
+  if (isAdmin) {
+    menuItems.push({ path: '/admin/users', icon: Users, label: 'Usuários' });
+  }
 
   return (
     <div className="layout">
