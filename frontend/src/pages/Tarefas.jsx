@@ -30,7 +30,10 @@ const Tarefas = () => {
 
   const carregarProjetos = async () => {
     try {
-      const response = await axios.get(`${API}/projetos`);
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API}/projetos`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       setProjetos(response.data);
       if (response.data.length > 0) {
         setProjetoSelecionado(response.data[0].id);
@@ -45,7 +48,10 @@ const Tarefas = () => {
 
   const carregarKanban = async () => {
     try {
-      const response = await axios.get(`${API}/tarefas/kanban/${projetoSelecionado}`);
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API}/tarefas/kanban/${projetoSelecionado}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       setKanban(response.data);
     } catch (error) {
       console.error('Erro ao carregar kanban:', error);
