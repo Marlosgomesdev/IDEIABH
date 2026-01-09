@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import Contratos from './pages/Contratos';
 import Projetos from './pages/Projetos';
 import Tarefas from './pages/Tarefas';
+import AdminUsers from './pages/AdminUsers';
 import './App.css';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/contratos" element={<Contratos />} />
           <Route path="/projetos" element={<Projetos />} />
           <Route path="/tarefas" element={<Tarefas />} />
+          <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/" element={<Navigate to="/login" replace />} />
         </Routes>
       </BrowserRouter>
