@@ -65,29 +65,38 @@ const Tarefas = () => {
 
     // Mover tarefa entre colunas
     try {
-      // Mapear coluna para etapa
-      const colunaParaEtapa = {
-        'LANCAMENTO': '1 - Lançamento do Contrato',
-        'ATIVACAO': '2 - Ativação do Projeto',
-        'REVISAO': '3 - Revisão de Texto / Preparação das Fotos',
-        'CRIACAO_1_2': '4 - Criação (1ª e 2ª AP)',
-        'CRIACAO_3_4': '6 - Criação (3ª e 4ª AP)',
-        'APROVACAO': '7 - Aprovação Final (Criação)',
-        'PLANEJAMENTO': '8 - Planejamento de Produção',
-        'PRE_PRODUCAO': '9 - Pré-Produção',
-        'PRODUCAO': '10 - Produção',
-        'CONCLUIDO': '10 - Produção'
-      };
+      // Se moveu para CONCLUIDO, atualizar status para Concluído
+      if (destination.droppableId === 'CONCLUIDO') {
+        await axios.put(`${API}/tarefas/${draggableId}`, {
+          status: 'Concluído',
+          data_conclusao: new Date().toISOString()
+        });
+        toast({ title: 'Tarefa concluída com sucesso!' });
+      } else {
+        // Mapear coluna para etapa
+        const colunaParaEtapa = {
+          'LANCAMENTO': '1 - Lançamento do Contrato',
+          'ATIVACAO': '2 - Ativação do Projeto',
+          'REVISAO': '3 - Revisão de Texto / Preparação das Fotos',
+          'CRIACAO_1_2': '4 - Criação (1ª e 2ª AP)',
+          'CRIACAO_3_4': '6 - Criação (3ª e 4ª AP)',
+          'APROVACAO': '7 - Aprovação Final (Criação)',
+          'PLANEJAMENTO': '8 - Planejamento de Produção',
+          'PRE_PRODUCAO': '9 - Pré-Produção',
+          'PRODUCAO': '10 - Produção'
+        };
 
-      const novaEtapa = colunaParaEtapa[destination.droppableId];
+        const novaEtapa = colunaParaEtapa[destination.droppableId];
+        
+        await axios.put(`${API}/tarefas/${draggableId}/mover?nova_etapa=${encodeURIComponent(novaEtapa)}`);
+        
+        toast({ title: 'Tarefa movida com sucesso!' });
+      }
       
-      await axios.put(`${API}/tarefas/${draggableId}/mover?nova_etapa=${encodeURIComponent(novaEtapa)}`);
-      
-      toast({ title: 'Tarefa movida com sucesso!' });
       carregarKanban();
     } catch (error) {
       console.error('Erro ao mover tarefa:', error);
-      toast({ title: 'Erro ao mover tarefa', variant: 'destructive' });
+      toast({ title: 'Erro ao mover tarefa', variant: 'destructive', description: error.response?.data?.detail || error.message });
     }
   };
 
