@@ -59,7 +59,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db = None):
         raise credentials_exception
     
     # Buscar usuário no banco
-    if db:
+    if db is not None:
         user = await db.users.find_one({"id": user_id}, {"_id": 0})
         if user is None:
             raise credentials_exception
