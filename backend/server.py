@@ -159,8 +159,12 @@ async def get_me(token: str = Depends(oauth2_scheme)):
 
 # ============ ADMINISTRAÇÃO ============
 
+async def get_current_user_dep(token: str = Depends(oauth2_scheme)):
+    """Dependency para obter usuário atual"""
+    return await get_current_user(token, db)
+
 @api_router.get("/admin/users")
-async def listar_usuarios(current_user: dict = Depends(lambda token=Depends(oauth2_scheme): get_current_user(token, db))):
+async def listar_usuarios(current_user: dict = Depends(get_current_user_dep)):
     """Lista todos os usuários (apenas admin)"""
     await require_permission("admin", current_user)
     
@@ -173,7 +177,7 @@ async def listar_usuarios(current_user: dict = Depends(lambda token=Depends(oaut
 @api_router.post("/admin/users")
 async def criar_usuario_admin(
     user_data: UserCreate,
-    current_user: dict = Depends(lambda token=Depends(oauth2_scheme): get_current_user(token, db))
+    current_user: dict = Depends(get_current_user_dep)
 ):
     """Cria novo usuário (apenas admin)"""
     await require_permission("admin", current_user)
@@ -205,7 +209,7 @@ async def criar_usuario_admin(
 async def atualizar_usuario(
     user_id: str,
     update: UserUpdate,
-    current_user: dict = Depends(lambda token=Depends(oauth2_scheme): get_current_user(token, db))
+    current_user: dict = Depends(get_current_user_dep)
 ):
     """Atualiza usuário (apenas admin)"""
     await require_permission("admin", current_user)
