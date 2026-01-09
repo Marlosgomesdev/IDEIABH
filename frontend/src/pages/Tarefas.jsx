@@ -63,6 +63,13 @@ const Tarefas = () => {
       return;
     }
 
+    // Obter token
+    const token = localStorage.getItem('token');
+    if (!token) {
+      toast({ title: 'Erro', description: 'Token de autenticação não encontrado', variant: 'destructive' });
+      return;
+    }
+
     // Mover tarefa entre colunas
     try {
       // Se moveu para CONCLUIDO, atualizar status para Concluído
@@ -70,8 +77,10 @@ const Tarefas = () => {
         await axios.put(`${API}/tarefas/${draggableId}`, {
           status: 'Concluído',
           data_conclusao: new Date().toISOString()
+        }, {
+          headers: { Authorization: `Bearer ${token}` }
         });
-        toast({ title: 'Tarefa concluída com sucesso!' });
+        toast({ title: '✅ Tarefa concluída com sucesso!' });
       } else {
         // Mapear coluna para etapa
         const colunaParaEtapa = {
@@ -88,15 +97,21 @@ const Tarefas = () => {
 
         const novaEtapa = colunaParaEtapa[destination.droppableId];
         
-        await axios.put(`${API}/tarefas/${draggableId}/mover?nova_etapa=${encodeURIComponent(novaEtapa)}`);
+        await axios.put(`${API}/tarefas/${draggableId}/mover?nova_etapa=${encodeURIComponent(novaEtapa)}`, {}, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
         
-        toast({ title: 'Tarefa movida com sucesso!' });
+        toast({ title: '✅ Tarefa movida com sucesso!' });
       }
       
       carregarKanban();
     } catch (error) {
       console.error('Erro ao mover tarefa:', error);
-      toast({ title: 'Erro ao mover tarefa', variant: 'destructive', description: error.response?.data?.detail || error.message });
+      toast({ 
+        title: 'Erro ao mover tarefa', 
+        variant: 'destructive',
+        description: error.response?.data?.detail || error.message 
+      });
     }
   };
 
