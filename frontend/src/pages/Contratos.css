@@ -1,0 +1,237 @@
+.contratos-page, .projetos-page, .tarefas-page {
+  width: 100%;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+  font-size: 1rem;
+  color: #64748b;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  font-size: 1.25rem;
+  color: #64748b;
+}
+
+/* ESTEIRA DE PROJETOS */
+.esteira-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  height: calc(100vh - 200px);
+}
+
+.esteira-coluna {
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.coluna-header {
+  padding: 1rem;
+  background: white;
+  border-top: 4px solid #3b82f6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.coluna-titulo {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+}
+
+.coluna-contador {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.coluna-projetos {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.coluna-vazia {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.875rem;
+}
+
+.projeto-card {
+  background: white;
+  transition: all 0.2s;
+  border-left: 4px solid transparent;
+}
+
+.projeto-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateX(4px);
+}
+
+.projeto-card.border-red-500 {
+  border-left-color: #ef4444;
+}
+
+.projeto-card.border-yellow-500 {
+  border-left-color: #f59e0b;
+}
+
+/* CONTRATOS */
+.contratos-grid, .projetos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.contrato-card, .projeto-card {
+  transition: all 0.2s;
+}
+
+.contrato-card:hover, .projeto-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.card-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  gap: 1rem;
+}
+
+.contrato-info, .projeto-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-label {
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.info-value {
+  font-size: 0.95rem;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.form-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.tarefas-table {
+  width: 100%;
+  background: white;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.risco-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.risco-badge.baixo {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.risco-badge.medio {
+  background: #fed7aa;
+  color: #92400e;
+}
+
+.risco-badge.alto {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+@media (max-width: 1400px) {
+  .esteira-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .esteira-container {
+    grid-template-columns: 1fr;
+  }
+
+  .contratos-grid, .projetos-grid {
+    grid-template-columns: 1fr;
+  }
+}

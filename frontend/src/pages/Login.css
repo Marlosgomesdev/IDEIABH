@@ -1,0 +1,255 @@
+.login-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Left Side - Brand Section */
+.login-left {
+  flex: 3;
+  background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.login-left-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 41, 59, 0.88) 100%);
+  display: flex;
+  align-items: center;
+  padding: 4rem;
+}
+
+.login-brand {
+  max-width: 600px;
+}
+
+.brand-title {
+  font-size: 4rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.brand-subtitle {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.brand-description {
+  font-size: 1.125rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.6;
+}
+
+/* Right Side - Login Form */
+.login-right {
+  flex: 2;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  position: relative;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 440px;
+}
+
+.login-header {
+  margin-bottom: 2.5rem;
+  text-align: left;
+}
+
+.login-title {
+  font-size: 1.875rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 0.5rem;
+}
+
+.login-subtitle {
+  font-size: 1rem;
+  color: #64748b;
+  font-weight: 400;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.form-input {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.login-button {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: #0f172a;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: all 0.2s;
+}
+
+.login-button:hover {
+  background-color: #1e293b;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.3);
+}
+
+.login-button:active {
+  transform: translateY(0);
+}
+
+.login-footer {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.register-link {
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.register-link-text {
+  color: #0f172a;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.register-link-text:hover {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+/* Emergent Badge */
+.emergent-badge {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+}
+
+.badge-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: #64748b;
+  font-size: 0.75rem;
+  transition: all 0.2s;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+}
+
+.badge-link:hover {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+.badge-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.badge-text {
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .login-left {
+    flex: 2;
+  }
+  
+  .login-right {
+    flex: 3;
+  }
+  
+  .brand-title {
+    font-size: 3rem;
+  }
+  
+  .brand-subtitle {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+  }
+  
+  .login-left {
+    min-height: 300px;
+  }
+  
+  .login-left-overlay {
+    padding: 2rem;
+  }
+  
+  .brand-title {
+    font-size: 2.5rem;
+  }
+  
+  .brand-subtitle {
+    font-size: 1.125rem;
+  }
+  
+  .brand-description {
+    font-size: 1rem;
+  }
+  
+  .login-right {
+    padding: 2rem 1.5rem;
+  }
+  
+  .emergent-badge {
+    position: static;
+    margin-top: 2rem;
+  }
+}
