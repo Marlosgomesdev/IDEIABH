@@ -173,6 +173,7 @@ class TarefaUpdate(BaseModel):
     status: Optional[TarefaStatus] = None
     data_conclusao: Optional[datetime] = None
     dependencias: Optional[List[str]] = None
+    observacao: Optional[str] = None  # Campo para observações e justificativas
 
 # Notificações
 class TipoNotificacao(str, Enum):
