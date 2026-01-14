@@ -1684,6 +1684,126 @@ async def root():
         "timestamp": datetime.utcnow().isoformat()
     }
 
+
+# ============ NOTIFICAÇÕES ============
+
+@api_router.get("/notificacoes")
+async def listar_notificacoes(current_user: dict = Depends(get_current_user_dep)):
+    """Lista todas as notificações do usuário logado"""
+    try:
+        notificacoes = await db.notificacoes.find(
+            {"usuario_id": current_user['id']},
+            {"_id": 0}
+        ).sort("created_at", -1).to_list(100)
+        
+        return notificacoes
+    except Exception as e:
+        logger.error(f"Erro ao listar notificações: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/notificacoes/nao-lidas")
+async def contar_nao_lidas(current_user: dict = Depends(get_current_user_dep)):
+    """Conta notificações não lidas do usuário"""
+    try:
+        count = await db.notificacoes.count_documents({
+            "usuario_id": current_user['id'],
+            "lida": False
+        })
+        return {"count": count}
+    except Exception as e:
+        logger.error(f"Erro ao contar notificações: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.put("/notificacoes/{notificacao_id}/ler")
+async def marcar_como_lida(notificacao_id: str, current_user: dict = Depends(get_current_user_dep)):
+    """Marca uma notificação como lida"""
+    try:
+        result = await db.notificacoes.update_one(
+            {"id": notificacao_id, "usuario_id": current_user['id']},
+            {"$set": {"lida": True}}
+        )
+        
+        if result.modified_count == 0:
+            raise HTTPException(status_code=404, detail="Notificação não encontrada")
+        
+        return {"message": "Notificação marcada como lida"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Erro ao marcar notificação como lida: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.put("/notificacoes/ler-todas")
+async def marcar_todas_como_lidas(current_user: dict = Depends(get_current_user_dep)):
+    """Marca todas as notificações do usuário como lidas"""
+    try:
+        await db.notificacoes.update_many(
+            {"usuario_id": current_user['id'], "lida": False},
+            {"$set": {"lida": True}}
+        )
+        return {"message": "Todas as notificações marcadas como lidas"}
+    except Exception as e:
+        logger.error(f"Erro ao marcar todas como lidas: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ============ DASHBOARD E ESTATÍSTICAS ============
+
+@api_router.get("/dashboard/tarefas-atrasadas")
+async def tarefas_atrasadas(current_user: dict = Depends(get_current_user_dep)):
+    """Retorna estatísticas de tarefas atrasadas"""
+    try:
+        agora = datetime.utcnow()
+        
+        # Buscar tarefas atrasadas
+        tarefas = await db.tarefas.find({
+            "status": {"$ne": "Concluído"},
+            "prazo": {"$lt": agora.isoformat()}
+        }, {"_id": 0}).to_list(1000)
+        
+        # Agrupar por responsável
+        por_responsavel = {}
+        for tarefa in tarefas:
+            resp = tarefa.get('responsavel', 'Não atribuído')
+            if resp not in por_responsavel:
+                por_responsavel[resp] = []
+            por_responsavel[resp].append(tarefa)
+        
+        # Calcular dias de atraso
+        for tarefa in tarefas:
+            prazo = datetime.fromisoformat(tarefa['prazo'].replace('Z', ''))
+            dias_atraso = (agora - prazo).days
+            tarefa['dias_atraso'] = dias_atraso
+        
+        return {
+            "total": len(tarefas),
+            "por_responsavel": {k: len(v) for k, v in por_responsavel.items()},
+            "tarefas": tarefas
+        }
+    except Exception as e:
+        logger.error(f"Erro ao buscar tarefas atrasadas: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/dashboard/proximas-vencer")
+async def tarefas_proximas_vencer(current_user: dict = Depends(get_current_user_dep)):
+    """Retorna tarefas que vencem em 1 dia"""
+    try:
+        agora = datetime.utcnow()
+        amanha = agora + timedelta(days=1)
+        
+        tarefas = await db.tarefas.find({
+            "status": {"$ne": "Concluído"},
+            "prazo": {
+                "$gte": agora.isoformat(),
+                "$lte": amanha.isoformat()
+            }
+        }, {"_id": 0}).to_list(1000)
+        
+        return {"total": len(tarefas), "tarefas": tarefas}
+    except Exception as e:
+        logger.error(f"Erro ao buscar tarefas próximas ao vencimento: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # Include the router in the main app
 app.include_router(api_router)
 
