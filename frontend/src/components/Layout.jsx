@@ -1,20 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, FileText, FolderKanban, CheckSquare, LogOut, Users } from 'lucide-react';
+import Notificacoes from './Notificacoes';
 import './Layout.css';
 
 const Layout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [user, setUser] = useState(null);
+  const [menuItems, setMenuItems] = useState([]);
 
   useEffect(() => {
-    // Verificar se usuário é admin
+    // Carregar dados do usuário
     const userData = localStorage.getItem('user');
     if (userData) {
       try {
-        const user = JSON.parse(userData);
-        setIsAdmin(user.role === 'Administrador' || user.permissoes?.admin);
+        const parsedUser = JSON.parse(userData);
+        setUser(parsedUser);
+        
+        // Construir menu baseado em permissões
+        const items = [];
+        const perms = parsedUser.permissoes || {};
+        
+        // Dashboard sempre visível se tiver permissão
+        if (perms.dashboard) {
+          items.push({ path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' });
+        }
+        
+        // Contratos
+        if (perms.contratos_visualizar) {
+          items.push({ path: '/contratos', icon: FileText, label: 'Contratos' });
+        }
+        
+        // Projetos
+        if (perms.projetos_visualizar) {
+          items.push({ path: '/projetos', icon: FolderKanban, label: 'Projetos' });
+        }
+        
+        // Tarefas
+        if (perms.tarefas_visualizar) {
+          items.push({ path: '/tarefas', icon: CheckSquare, label: 'Tarefas' });
+        }
+        
+        // Usuários (apenas admin)
+        if (perms.admin || parsedUser.role === 'Administrador') {
+          items.push({ path: '/admin/users', icon: Users, label: 'Usuários' });
+        }
+        
+        setMenuItems(items);
       } catch (e) {
         console.error('Erro ao verificar permissões:', e);
       }
@@ -26,17 +59,6 @@ const Layout = ({ children }) => {
     localStorage.removeItem('user');
     navigate('/login');
   };
-
-  const menuItems = [
-    { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-    { path: '/contratos', icon: FileText, label: 'Contratos' },
-    { path: '/projetos', icon: FolderKanban, label: 'Projetos' },
-    { path: '/tarefas', icon: CheckSquare, label: 'Tarefas' },
-  ];
-
-  if (isAdmin) {
-    menuItems.push({ path: '/admin/users', icon: Users, label: 'Usuários' });
-  }
 
   return (
     <div className="layout">
@@ -70,6 +92,14 @@ const Layout = ({ children }) => {
       </aside>
 
       <main className="main-content">
+        <div className="top-bar">
+          <div className="top-bar-left">
+            {user && <span className="user-name">Olá, {user.nome}</span>}
+          </div>
+          <div className="top-bar-right">
+            <Notificacoes />
+          </div>
+        </div>
         <div className="content-wrapper">{children}</div>
       </main>
     </div>
