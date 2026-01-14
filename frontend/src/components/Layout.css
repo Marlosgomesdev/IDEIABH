@@ -97,12 +97,44 @@
   margin-left: 260px;
   flex: 1;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-bar {
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.top-bar-left {
+  display: flex;
+  align-items: center;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .content-wrapper {
   padding: 2rem;
   max-width: 1600px;
   margin: 0 auto;
+  width: 100%;
+  flex: 1;
 }
 
 /* Responsive */
