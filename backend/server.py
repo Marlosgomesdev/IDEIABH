@@ -12,7 +12,7 @@ from models import (
     Contrato, ContratoCreate, ContratoUpdate, ContratoStatus,
     Projeto, ProjetoUpdate, EtapaProjeto,
     Tarefa, TarefaCreate, TarefaUpdate, TarefaStatus,
-    Alerta, Notificacao, OperacaoResponse, Log, NivelRisco,
+    Alerta, Notificacao, TipoNotificacao, OperacaoResponse, Log, NivelRisco,
     User, UserCreate, UserUpdate, UserLogin, UserRole, NotificacaoUsuario, Token,
     ESTEIRA_COMPLETA, MacroEtapa
 )
