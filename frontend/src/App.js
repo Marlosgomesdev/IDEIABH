@@ -4,7 +4,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import DashboardNovo from './pages/DashboardNovo';
 import Contratos from './pages/Contratos';
-import Projetos from './pages/Projetos';
+import ProjetosLista from './pages/ProjetosLista';
 import TarefasLista from './pages/TarefasLista';
 import AdminUsers from './pages/AdminUsers';
 import './App.css';
@@ -18,7 +18,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<DashboardNovo />} />
           <Route path="/contratos" element={<Contratos />} />
-          <Route path="/projetos" element={<Projetos />} />
+          <Route path="/projetos" element={<ProjetosLista />} />
           <Route path="/tarefas" element={<TarefasLista />} />
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/" element={<Navigate to="/login" replace />} />
