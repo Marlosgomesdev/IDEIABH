@@ -399,6 +399,7 @@ const AdminUsers = () => {
         ))}
       </div>
     </div>
+    </Layout>
   );
 };
 
