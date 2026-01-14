@@ -696,12 +696,32 @@ async def excluir_contrato(contrato_id: str):
 
 @api_router.get("/projetos")
 async def listar_projetos():
-    """Lista todos os projetos"""
+    """Lista todos os projetos com informações do contrato"""
     projetos = await db.projetos.find({}, {"_id": 0}).to_list(1000)
-    # Adicionar campos padrão se não existirem
+    
+    # Enriquecer projetos com dados do contrato
     for projeto in projetos:
         if 'macro_etapa' not in projeto:
             projeto['macro_etapa'] = MacroEtapa.ATENDIMENTO.value
+        
+        # Buscar contrato relacionado
+        contrato_id = projeto.get('contrato_id')
+        if contrato_id:
+            contrato = await db.contratos.find_one({"id": contrato_id}, {"_id": 0})
+            if contrato:
+                projeto['cliente'] = contrato.get('cliente', 'N/A')
+                projeto['faculdade'] = contrato.get('faculdade', 'N/A')
+                projeto['contrato_numero'] = contrato.get('numero_contrato', 'N/A')
+                projeto['data_entrega'] = contrato.get('data_fim')
+        
+        # Valores padrão se não encontrar contrato
+        if 'cliente' not in projeto:
+            projeto['cliente'] = 'N/A'
+        if 'faculdade' not in projeto:
+            projeto['faculdade'] = 'N/A'
+        if 'contrato_numero' not in projeto:
+            projeto['contrato_numero'] = 'N/A'
+    
     return projetos
 
 @api_router.get("/projetos/{projeto_id}")
