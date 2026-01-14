@@ -243,4 +243,63 @@
   .gargalo-nome {
     min-width: unset;
   }
+
+/* Gr\u00e1ficos */
+.graficos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.grafico-card {
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.gargalos-card {
+  margin-top: 2rem;
+}
+
+.gargalos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.gargalo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 0.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+.gargalo-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.hover\:shadow-lg:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.transition-shadow {
+  transition: box-shadow 0.3s;
+}
+
+@media (max-width: 768px) {
+  .graficos-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 }
