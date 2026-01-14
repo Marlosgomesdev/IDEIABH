@@ -173,6 +173,24 @@ class TarefaUpdate(BaseModel):
     data_conclusao: Optional[datetime] = None
     dependencias: Optional[List[str]] = None
 
+# Notificações
+class TipoNotificacao(str, Enum):
+    NOVA_TAREFA = "Nova Tarefa"
+    PRAZO_PROXIMO = "Prazo Próximo"
+    TAREFA_ATRASADA = "Tarefa Atrasada"
+    TAREFA_CONCLUIDA = "Tarefa Concluída"
+    TAREFA_MOVIDA = "Tarefa Movida"
+
+class Notificacao(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    usuario_id: str
+    tipo: TipoNotificacao
+    titulo: str
+    mensagem: str
+    tarefa_id: Optional[str] = None
+    lida: bool = False
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
 class Alerta(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     tipo: str
