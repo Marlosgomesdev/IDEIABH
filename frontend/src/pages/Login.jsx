@@ -5,6 +5,7 @@ import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { useAuth } from '../context/AuthContext';
 import { toast } from '../hooks/use-toast';
+import { Mail, Lock, ArrowRight, Sparkles } from 'lucide-react';
 import './Login.css';
 
 const Login = () => {
@@ -35,80 +36,104 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-left">
-        <div className="login-left-overlay">
-          <div className="login-brand">
-            <h1 className="brand-title">IDEIABH</h1>
-            <p className="brand-subtitle">Motor Inteligente de Gestão Operacional</p>
-            <p className="brand-description">Workflow e Governança de Projetos</p>
-          </div>
-        </div>
+    <div className="login-wrapper">
+      {/* Fundo com gradiente animado */}
+      <div className="login-background">
+        <div className="gradient-circle circle-1"></div>
+        <div className="gradient-circle circle-2"></div>
+        <div className="gradient-circle circle-3"></div>
       </div>
 
-      <div className="login-right">
-        <div className="login-card">
-          <div className="login-header">
-            <h2 className="login-title">Bem-vindo de volta</h2>
-            <p className="login-subtitle">Faça login para acessar o sistema</p>
+      {/* Container principal */}
+      <div className="login-content">
+        {/* Logo e título */}
+        <div className="login-header">
+          <div className="logo-container">
+            <Sparkles className="logo-icon" />
+            <h1 className="logo-text">IDEIABH</h1>
           </div>
+          <p className="welcome-text">Sistema de Gestão Operacional</p>
+          <p className="welcome-subtitle">Faça login para continuar</p>
+        </div>
 
-          <form onSubmit={handleSubmit} className="login-form">
-            <div className="form-group">
-              <Label htmlFor="email" className="form-label">E-mail</Label>
+        {/* Formulário */}
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="form-group">
+            <Label htmlFor="email" className="form-label">
+              Email
+            </Label>
+            <div className="input-wrapper">
+              <Mail className="input-icon" size={18} />
               <Input
                 id="email"
                 type="email"
+                placeholder="seu@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="form-input"
                 required
-                disabled={loading}
+                className="form-input"
+                data-testid="email-input"
               />
             </div>
+          </div>
 
-            <div className="form-group">
-              <Label htmlFor="senha" className="form-label">Senha</Label>
+          <div className="form-group">
+            <Label htmlFor="senha" className="form-label">
+              Senha
+            </Label>
+            <div className="input-wrapper">
+              <Lock className="input-icon" size={18} />
               <Input
                 id="senha"
                 type="password"
+                placeholder="••••••••"
                 value={senha}
                 onChange={(e) => setSenha(e.target.value)}
-                className="form-input"
                 required
-                disabled={loading}
+                className="form-input"
+                data-testid="password-input"
               />
             </div>
-
-            <Button type="submit" className="login-button" disabled={loading}>
-              {loading ? 'Entrando...' : 'Entrar'}
-            </Button>
-          </form>
-
-          <div className="login-footer">
-            <p className="register-link">
-              Não tem uma conta?{' '}
-              <Link to="/register" className="register-link-text">
-                Cadastre-se
-              </Link>
-            </p>
           </div>
+
+          <Button
+            type="submit"
+            disabled={loading}
+            className="submit-button"
+            data-testid="login-button"
+          >
+            {loading ? (
+              <span className="loading-spinner">Entrando...</span>
+            ) : (
+              <>
+                <span>Entrar</span>
+                <ArrowRight className="button-icon" size={18} />
+              </>
+            )}
+          </Button>
+        </form>
+
+        {/* Link de registro */}
+        <div className="login-footer">
+          <p className="footer-text">
+            Não tem uma conta?
+            <Link to="/register" className="footer-link">
+              Criar conta
+            </Link>
+          </p>
         </div>
 
-        <div className="emergent-badge">
-          <a 
-            href="https://app.emergent.sh/?utm_source=emergent-badge" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="badge-link"
-          >
-            <img 
-              src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" 
-              alt="Emergent" 
-              className="badge-icon"
-            />
-            <span className="badge-text">Made with Emergent</span>
-          </a>
+        {/* Credenciais de demonstração */}
+        <div className="demo-credentials">
+          <p className="demo-title">Credenciais de demonstração:</p>
+          <div className="demo-info">
+            <span className="demo-label">Email:</span>
+            <code className="demo-value">admin@ideiabh.com</code>
+          </div>
+          <div className="demo-info">
+            <span className="demo-label">Senha:</span>
+            <code className="demo-value">admin123</code>
+          </div>
         </div>
       </div>
     </div>
