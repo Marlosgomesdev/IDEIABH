@@ -216,11 +216,12 @@ const AdminUsers = () => {
   };
 
   if (loading) {
-    return <div className="admin-users-container"><p>Carregando...</p></div>;
+    return <Layout><div className="admin-users-container"><p>Carregando...</p></div></Layout>;
   }
 
   return (
-    <div className="admin-users-container" data-testid="admin-users-page">
+    <Layout>
+      <div className="admin-users-container" data-testid="admin-users-page">
       <div className="admin-users-header">
         <div>
           <h1 className="admin-users-title" data-testid="admin-users-title">
