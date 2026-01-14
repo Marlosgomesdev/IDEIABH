@@ -5,7 +5,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Contratos from './pages/Contratos';
 import Projetos from './pages/Projetos';
-import Tarefas from './pages/Tarefas';
+import TarefasLista from './pages/TarefasLista';
 import AdminUsers from './pages/AdminUsers';
 import './App.css';
 
@@ -19,7 +19,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/contratos" element={<Contratos />} />
           <Route path="/projetos" element={<Projetos />} />
-          <Route path="/tarefas" element={<Tarefas />} />
+          <Route path="/tarefas" element={<TarefasLista />} />
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/" element={<Navigate to="/login" replace />} />
         </Routes>
