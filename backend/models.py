@@ -147,6 +147,7 @@ class Tarefa(BaseModel):
     status: TarefaStatus = TarefaStatus.PENDENTE
     dependencias: List[str] = []
     critica: bool = False
+    observacao: Optional[str] = None  # Campo para observações e justificativas
     logs: List[Log] = []
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
